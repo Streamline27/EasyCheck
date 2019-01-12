@@ -1,6 +1,8 @@
 package main.constraint;
 
 import main.constraint.descriptions.ConstraintTypeDescription;
+import main.constraint.descriptions.LengthDescription;
+import main.constraint.descriptions.RegexDescription;
 
 public enum  ConstrainType {
 
@@ -17,7 +19,10 @@ public enum  ConstrainType {
                     .regex()
                         .shouldMatch("[0-9]+")
                         .elseReport(MapExceptions.EXC_PHONE_NUMBER_INCORRECT)
-                .build()
+                .and()
+                    .notNull()
+                    .notEmpty()
+                .end()
     )
     ;
 
@@ -27,11 +32,27 @@ public enum  ConstrainType {
         this.config = config;
     }
 
-    private static ConstraintTypeDescription description() {
-        return new ConstraintTypeDescription();
+    private static ConstraintTypeDescription.Builder description() {
+        return ConstraintTypeDescription.builder();
     }
 
-    public ConstraintTypeDescription getConfig() {
-        return config;
+    public LengthDescription maxLength() {
+        return config.maxLengthDescription;
+    }
+
+    public LengthDescription minLength() {
+        return config.minLengthDescription;
+    }
+
+    public RegexDescription regex() {
+        return config.regexDescription;
+    }
+
+    public boolean isNotNull() {
+        return config.notNull;
+    }
+
+    public boolean isNotEmpty() {
+        return config.notEmpty;
     }
 }
