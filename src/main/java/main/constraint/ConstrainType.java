@@ -1,8 +1,6 @@
 package main.constraint;
 
-import main.constraint.descriptions.ConstraintTypeDescription;
-import main.constraint.descriptions.LengthDescription;
-import main.constraint.descriptions.RegexDescription;
+import main.constraint.descriptions.*;
 
 public enum  ConstrainType {
 
@@ -10,18 +8,33 @@ public enum  ConstrainType {
             description()
                     .maxLength()
                         .shouldBe(15)
-                        .elseReport(MapExceptions.EXC_TEXT_TO_LONG)
+                        .elseReport(MapExceptions.EXC_PHONE_NUMBER_TO_LONG)
                 .and()
                     .minLength()
                         .shouldBe(5)
-                        .elseReport(MapExceptions.EXC_TEXT_TO_SHORT)
+                        .elseReport(MapExceptions.EXC_PHONE_NUMBER_TO_SHORT)
                 .and()
                     .regex()
                         .shouldMatch("[0-9]+")
                         .elseReport(MapExceptions.EXC_PHONE_NUMBER_INCORRECT)
                 .and()
-                    .notNull()
                     .notEmpty()
+                .and()
+                    .notNull()
+                .end()
+    ),
+
+    COMPANY_REGISTRATION_NUMBER(
+            description()
+                    .minLength(5).elseReport(MapExceptions.EXC_TEXT_TO_LONG)
+                .and()
+                    .maxLength(25)
+                .and()
+                    .regex("[0-9]+")
+                .and()
+                    .notEmpty().elseReport(MapExceptions.EXC_REGISTRATION_NUMBER_IS_EMPTY)
+                .and()
+                    .notNull().elseReport(MapExceptions.EXC_REGISTRATION_NUMBER_IS_NULL)
                 .end()
     )
     ;
@@ -48,11 +61,11 @@ public enum  ConstrainType {
         return config.regexDescription;
     }
 
-    public boolean isNotNull() {
-        return config.notNull;
+    public NotNullDescription notNull() {
+        return config.notNullDescription;
     }
 
-    public boolean isNotEmpty() {
-        return config.notEmpty;
+    public NotEmptyDescription notEmpty() {
+        return config.notEmptyDescription;
     }
 }

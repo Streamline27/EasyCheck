@@ -1,22 +1,21 @@
 package main.constraint.descriptions;
 
-import java.util.regex.Pattern;
+public class NotNullDescription {
 
-public class RegexDescription {
-    private final Pattern pattern;
+    private final boolean notNull;
     private final String exceptionCode;
 
-    private RegexDescription(Builder builder) {
-        this.pattern = builder.pattern;
-        this.exceptionCode = builder.exceptionCode;
-    }
-
-    public Pattern getPattern() {
-        return pattern;
+    public boolean isNotNull() {
+        return notNull;
     }
 
     public String getExceptionCode() {
         return exceptionCode;
+    }
+
+    private NotNullDescription(Builder builder) {
+        this.notNull = builder.notNull;
+        this.exceptionCode = builder.exceptionCode;
     }
 
     public static Builder builder(ConstraintTypeDescription.Builder constraintTypeDescriptionBuilder) {
@@ -24,19 +23,20 @@ public class RegexDescription {
     }
 
     public static final class Builder extends SubDescriptionBuilder {
-        private Pattern pattern;
+        private boolean notNull;
         private String exceptionCode;
 
         Builder(ConstraintTypeDescription.Builder constraintTypeDescriptionBuilder) {
             super(constraintTypeDescriptionBuilder);
+            this.notNull = true;
         }
 
-        RegexDescription build() {
-            return new RegexDescription(this);
+        public NotNullDescription build() {
+            return new NotNullDescription(this);
         }
 
-        public Builder shouldMatch(String pattern) {
-            this.pattern = Pattern.compile(pattern);
+        public Builder notNull(boolean notNull) {
+            this.notNull = notNull;
             return this;
         }
 

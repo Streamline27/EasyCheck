@@ -1,41 +1,38 @@
 package main.constraint.descriptions;
 
-public class LengthDescription {
-    private final int length;
+public class NotEmptyDescription {
+
+    private final boolean notEmpty;
     private final String exceptionCode;
 
-    private LengthDescription(Builder builder) {
-        this.length = builder.length;
+    private NotEmptyDescription(Builder builder) {
+        this.notEmpty = builder.notEmpty;
         this.exceptionCode = builder.exceptionCode;
-    }
-
-    public int getLength() {
-        return length;
     }
 
     public String getExceptionCode() {
         return exceptionCode;
     }
 
+    public boolean isNotEmpty() {
+        return notEmpty;
+    }
+
     public static Builder builder(ConstraintTypeDescription.Builder constraintTypeDescriptionBuilder) {
         return new Builder(constraintTypeDescriptionBuilder);
     }
 
-    public static final class Builder extends SubDescriptionBuilder {
-        private int length;
+    public static final class Builder extends SubDescriptionBuilder{
+        private boolean notEmpty;
         private String exceptionCode;
 
-        Builder(ConstraintTypeDescription.Builder constraintTypeDescriptionBuilder) {
+        private Builder(ConstraintTypeDescription.Builder constraintTypeDescriptionBuilder) {
             super(constraintTypeDescriptionBuilder);
+            this.notEmpty = true;
         }
 
-        LengthDescription build() {
-            return new LengthDescription(this);
-        }
-
-        public Builder shouldBe(int length) {
-            this.length = length;
-            return this;
+        public NotEmptyDescription build() {
+            return new NotEmptyDescription(this);
         }
 
         public Builder elseReport(String exceptionCode) {
